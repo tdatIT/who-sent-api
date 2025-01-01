@@ -1,0 +1,61 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.22.9
+
+      - name: Install dependencies
+        run: go mod tidy
+
+      - name: Run unit tests
+        run: go test ./... -v
+
+  lint:
+    name: Run GolangCI-Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.20  # Thay đổi nếu cần
+
+      - name: Install GolangCI-Lint
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.54.2
+          golangci-lint --version
+
+      - name: Run GolangCI-Lint
+        run: golangci-lint run ./...
+
+  build-docker:
+    name: Test Build Docker Image
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t myapp:latest .
