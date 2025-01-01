@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+#  redis-node-1:
+#    image: redis:6.0
+#    command: [ "redis-server", "--appendonly", "yes", "--cluster-enabled", "yes", "--cluster-config-file", "/data/nodes.conf", "--cluster-node-timeout", "5000", "--port", "6379" ]
+#    ports:
+#      - "6379:6379"
+#    networks:
+#      - redis-cluster
+#
+#  redis-node-2:
+#    image: redis:6.0
+#    command: [ "redis-server", "--appendonly", "yes", "--cluster-enabled", "yes", "--cluster-config-file", "/data/nodes.conf", "--cluster-node-timeout", "5000", "--port", "6380" ]
+#    ports:
+#      - "6380:6380"
+#    networks:
+#      - redis-cluster
+#
+#  redis-node-3:
+#    image: redis:6.0
+#    command: [ "redis-server", "--appendonly", "yes", "--cluster-enabled", "yes", "--cluster-config-file", "/data/nodes.conf", "--cluster-node-timeout", "5000", "--port", "6381" ]
+#    ports:
+#      - "6381:6381"
+#    networks:
+#      - redis-cluster
+  redis:
+    image: redis:6.0
+    command: [ "redis-server", "--appendonly", "yes", "--port", "6379" ]
+    ports:
+      - "6379:6379"
+    networks:
+      - redis-cluster
+
+
+networks:
+  redis-cluster:
+    driver: bridge
+  mysql-cluster:
+    driver: bridge
+
+volumes:
+  mysql_data:
