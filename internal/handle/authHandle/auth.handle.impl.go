@@ -5,8 +5,8 @@ import (
 	"github.com/tdatIT/who-sent-api/internal/biz/userServ"
 	"github.com/tdatIT/who-sent-api/internal/domain/dto"
 	"github.com/tdatIT/who-sent-api/pkgs/logger"
-	errors "github.com/tdatIT/who-sent-api/pkgs/utils/common/custom_error"
 	responses "github.com/tdatIT/who-sent-api/pkgs/utils/common/response"
+	errors "github.com/tdatIT/who-sent-api/pkgs/utils/common/servErr"
 )
 
 type authHandleImpl struct {

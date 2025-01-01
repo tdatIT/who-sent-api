@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/labstack/echo/v4"
-	errors "github.com/tdatIT/who-sent-api/pkgs/utils/common/custom_error"
+	errors "github.com/tdatIT/who-sent-api/pkgs/utils/common/servErr"
 )
 
 func GetUserIdFromContext(ctx echo.Context) (int, error) {

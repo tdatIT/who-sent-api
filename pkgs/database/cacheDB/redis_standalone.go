@@ -3,6 +3,7 @@ package cacheDB
 import (
 	"context"
 	"github.com/bytedance/sonic"
+	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
 	"github.com/tdatIT/who-sent-api/config"
 	"github.com/tdatIT/who-sent-api/pkgs/logger"

@@ -7,7 +7,7 @@ import (
 	"github.com/labstack/gommon/log"
 	"github.com/tdatIT/who-sent-api/config"
 	healthcheck "github.com/tdatIT/who-sent-api/pkgs/health"
-	errors "github.com/tdatIT/who-sent-api/pkgs/utils/common/custom_error"
+	errors "github.com/tdatIT/who-sent-api/pkgs/utils/common/servErr"
 	"github.com/tdatIT/who-sent-api/pkgs/utils/valid"
 )
 
