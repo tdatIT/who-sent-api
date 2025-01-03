@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"fmt"
+	"github.com/labstack/gommon/log"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"os"
@@ -53,7 +53,7 @@ func NewLogger(cfg *LogConfig) *loggerger {
 	if cfg.Filename != "" {
 		file, err := os.Create(cfg.Filename)
 		if err != nil {
-			fmt.Errorf("failed to create log file: %v", err)
+			log.Errorf("failed to create log file: %v", err)
 		}
 		logWriter = zapcore.AddSync(file)
 	} else {
