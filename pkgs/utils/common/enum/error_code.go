@@ -20,3 +20,23 @@ const (
 	DataLoss           = "015"
 	NotFoundEntity     = "017"
 )
+
+// custom error
+
+// Invalid error
+const (
+	InvalidCredentials    = "100"
+	InvalidToken          = "102"
+	InvalidRefreshToken   = "103"
+	InvalidOldPassword    = "104"
+	InvalidNewPassword    = "105"
+	InvalidUser           = "106"
+	InvalidRole           = "107"
+	InvalidPermission     = "108"
+	InvalidUserStatus     = "109"
+	InvalidUserType       = "110"
+	InvalidUserEmail      = "111"
+	InvalidUserPhone      = "112"
+	ErrEmailAlreadyExists = "113"
+	UserNotActivated      = "114"
+)

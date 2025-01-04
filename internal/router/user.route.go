@@ -14,6 +14,6 @@ func NewUserRoute(userHandle userHandle.UserHandle) UserRouter {
 }
 
 func (ur UserRouter) Init(root *echo.Group) {
-	userGroup := root.Group("/user")
+	userGroup := root.Group("/users")
 	userGroup.GET("/:id", ur.userHandle.GetUserById)
 }

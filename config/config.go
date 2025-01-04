@@ -18,6 +18,7 @@ type AppConfig struct {
 	DB        DB
 	Cache     Cache
 	Adapter   Adapter
+	OtherKM   OtherKM
 	LogConfig LogConfig
 }
 
@@ -65,8 +66,13 @@ type Redis struct {
 }
 
 type Adapter struct {
-	Product GrpcAdapter
-	Auth    GrpcAdapter
+	Auth AuthProviderConfig
+}
+
+type AuthProviderConfig struct {
+	JwtSecret  string
+	AccessExp  time.Duration
+	RefreshExp time.Duration
 }
 
 type GrpcAdapter struct {
@@ -84,9 +90,13 @@ type LogConfig struct {
 	Level    string
 }
 
+type OtherKM struct {
+	DefaultRoleID int
+}
+
 // Get config path for local or docker
 func getDefaultConfig() string {
-	return "/config/config"
+	return "/config/config-sample"
 }
 
 // NewConfig Load config file from given path

@@ -10,9 +10,11 @@ import (
 	"context"
 	"github.com/labstack/echo/v4"
 	"github.com/tdatIT/who-sent-api/config"
+	"github.com/tdatIT/who-sent-api/internal/biz/authServ"
 	"github.com/tdatIT/who-sent-api/internal/biz/userServ"
 	"github.com/tdatIT/who-sent-api/internal/handle/authHandle"
 	"github.com/tdatIT/who-sent-api/internal/handle/userHandle"
+	"github.com/tdatIT/who-sent-api/internal/infrastructure/adapter/auth"
 	"github.com/tdatIT/who-sent-api/internal/infrastructure/repository/userRepo"
 	"github.com/tdatIT/who-sent-api/internal/router"
 	"github.com/tdatIT/who-sent-api/pkgs/database/cacheDB"
@@ -33,7 +35,9 @@ func New() (*Server, error) {
 	userService := userServ.NewUserService(appConfig, userRepository)
 	userHandleUserHandle := userHandle.NewUserHandle(userService)
 	userRouter := router.NewUserRoute(userHandleUserHandle)
-	authHandleAuthHandle := authHandle.NewAuthHandle(userService)
+	authJwtProvider := auth.NewAuthJwtProvider(appConfig)
+	authService := authServ.NewAuthService(appConfig, authJwtProvider, userRepository)
+	authHandleAuthHandle := authHandle.NewAuthHandle(authService)
 	authRouter := router.NewAuthRoute(authHandleAuthHandle)
 	cacheEngine, err := cacheDB.NewCacheEngine(appConfig)
 	if err != nil {

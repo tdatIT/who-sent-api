@@ -15,5 +15,6 @@ func NewAuthRoute(authHandle authHandle.AuthHandle) AuthRouter {
 
 func (ar AuthRouter) Init(root *echo.Group) {
 	authGroup := root.Group("/auth")
-	authGroup.POST("/register", ar.authHandle.RegisterByEmail)
+	authGroup.POST("/login", ar.authHandle.LoginByUsernameAndPassword)
+	authGroup.POST("/register/email", ar.authHandle.RegisterByEmail)
 }

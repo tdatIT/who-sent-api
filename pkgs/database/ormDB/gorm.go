@@ -4,6 +4,7 @@ import (
 	"context"
 	"database/sql"
 	"github.com/tdatIT/who-sent-api/config"
+	"github.com/tdatIT/who-sent-api/internal/domain/models"
 	"github.com/tdatIT/who-sent-api/pkgs/logger"
 
 	"gorm.io/driver/postgres"
@@ -80,7 +81,9 @@ func New(c Config) (Gorm, error) {
 	}
 
 	err = db.AutoMigrate(
-	// Add your models here
+		// Add your models here
+		&models.Role{},
+		&models.User{},
 	)
 	if err != nil {
 		logger.Errorf("AutoMigrate error: %v", err)

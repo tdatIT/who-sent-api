@@ -1,5 +1,5 @@
 server:
-  name: echo-service
+  name: who-sent-api
   version: 1.0.0
   port: :5000
   mode: dev
@@ -15,11 +15,11 @@ server:
 db:
   autoMigrate: false
   postgres:
-    host:
-    port:
-    username:
-    password:
-    database:
+    host: localhost
+    port: 5432
+    username: postgres
+    password: 123123@Admin
+    database: who_sent_db
 
 cache:
   redis:
@@ -28,12 +28,13 @@ cache:
       - localhost:6379
 
 adapter:
-  product:
-    host: localhost
-    port: 9000
   auth:
-    host: localhost
-    port: 9005
+    jwtSecret: AXu4VLuQ7XFM7IA
+    accessExp: 15m
+    refreshExp: 86400m
+
+otherKM:
+  defaultRoleId: 1
 
 logConfig:
   level: debug

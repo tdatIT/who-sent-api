@@ -2,7 +2,7 @@ package authHandle
 
 import (
 	"github.com/labstack/echo/v4"
-	"github.com/tdatIT/who-sent-api/internal/biz/userServ"
+	"github.com/tdatIT/who-sent-api/internal/biz/authServ"
 	"github.com/tdatIT/who-sent-api/internal/domain/dto"
 	"github.com/tdatIT/who-sent-api/pkgs/logger"
 	responses "github.com/tdatIT/who-sent-api/pkgs/utils/common/response"
@@ -10,11 +10,36 @@ import (
 )
 
 type authHandleImpl struct {
-	userServ userServ.UserService
+	authServ authServ.AuthService
 }
 
-func NewAuthHandle(userServ userServ.UserService) AuthHandle {
-	return &authHandleImpl{userServ: userServ}
+func NewAuthHandle(authServ authServ.AuthService) AuthHandle {
+	return &authHandleImpl{authServ: authServ}
+}
+
+func (a authHandleImpl) LoginByUsernameAndPassword(ctx echo.Context) error {
+	req := new(dto.LoginByUserPasswordReq)
+
+	if err := ctx.Bind(req); err != nil {
+		logger.Errorf("error while binding request: %v", err)
+		return errors.ErrBadRequest
+	}
+
+	if err := ctx.Validate(req); err != nil {
+		logger.Errorf("error while validating request: %v", err)
+		return err
+	}
+
+	userData, err := a.authServ.LoginByUsernameAndPassword(ctx.Request().Context(), req)
+	if err != nil {
+		logger.Errorf("error while logging in: %v", err)
+		return err
+	}
+
+	response := responses.DefaultSuccess
+	response.Data = userData
+
+	return response.JSON(ctx)
 }
 
 func (a authHandleImpl) RegisterByEmail(ctx echo.Context) error {
@@ -30,7 +55,7 @@ func (a authHandleImpl) RegisterByEmail(ctx echo.Context) error {
 		return err
 	}
 
-	userData, err := a.userServ.RegisterUser(ctx.Request().Context(), req)
+	userData, err := a.authServ.RegisterNewUserByEmail(ctx.Request().Context(), req)
 	if err != nil {
 		logger.Errorf("error while registering user: %v", err)
 		return err

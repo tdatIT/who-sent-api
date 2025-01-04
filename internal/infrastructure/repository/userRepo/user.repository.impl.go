@@ -57,9 +57,9 @@ func (u userRepositoryImpl) FindByIdWithRelations(ctx context.Context, id int, r
 }
 
 func (u userRepositoryImpl) FindByEmail(ctx context.Context, email string) (*models.User, error) {
-	var entity *models.User
+	var entity models.User
 	result := u.dbClient.ExecWithContext(func(tx *gorm.DB) error {
-		return tx.Model(&models.User{}).Where("email = ?", email).First(entity).Error
+		return tx.Model(&models.User{}).First(&entity, "email = ? and deleted_at is null", email).Error
 	}, ctx)
 
 	if result != nil {
@@ -67,7 +67,7 @@ func (u userRepositoryImpl) FindByEmail(ctx context.Context, email string) (*mod
 		return nil, result
 	}
 
-	return entity, nil
+	return &entity, nil
 }
 
 func (u userRepositoryImpl) Create(ctx context.Context, user *models.User) (*models.User, error) {
